@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t manoj/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true manoj/react-test npm test
+
+after_success:
+  - docker build -t manoj/multi-client ./client
+  - docker build -t manoj/multi-nging ./nginx  
+  - docker build -t manoj/multi-server ./server
+  - docker build -t manoj/multi-worker ./worker
+# login in to the docker CI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Take those images and push them to docker hub
+  - docker push manoj/multi-client
+  - docker push manoj/multi-nginx
+  - docker push manoj/multi-server
+  - docker push manoj/multi-worker
