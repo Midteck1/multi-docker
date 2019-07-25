@@ -5,7 +5,8 @@ before_install:
   - docker build -t charu1/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run charu1/react-test npm test -- --coverage
+  - docker run -e CI=true charu1/react-test npm test
+
 
 after_success:
   - docker build -t charu1/multi-client ./client
