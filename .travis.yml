@@ -2,20 +2,20 @@ sudo: required
 services:
   - docker
 before_install:
-  - docker build -t manoj/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t charu1/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run manoj/react-test npm test -- --coverage
+  - docker run charu1/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t manoj/multi-client ./client
-  - docker build -t manoj/multi-nging ./nginx  
-  - docker build -t manoj/multi-server ./server
-  - docker build -t manoj/multi-worker ./worker
+  - docker build -t charu1/multi-client ./client
+  - docker build -t charu1/multi-nging ./nginx  
+  - docker build -t charu1/multi-server ./server
+  - docker build -t charu1/multi-worker ./worker
 # login in to the docker CI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 # Take those images and push them to docker hub
-  - docker push manoj/multi-client
-  - docker push manoj/multi-nginx
-  - docker push manoj/multi-server
-  - docker push manoj/multi-worker
+  - docker push charu1/multi-client
+  - docker push charu1/multi-nginx
+  - docker push charu1/multi-server
+  - docker push charu1/multi-worker
